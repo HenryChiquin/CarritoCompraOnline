@@ -1,0 +1,31 @@
+﻿@model List<compraOnlineWEB.Models.ViewModel.listSubCategoriaViewModel>
+@{
+    ViewBag.Title = "catalogoSubcategoria";
+    Layout = "~/Views/Shared/_LayoutProductos.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="sidebar">
+            <b>SUB-CATEGORIA</b>
+            <hr />
+            @foreach (var oElemento in Model)
+            {
+
+                <a onclick="jsGo(@oElemento.Id_subCategoria)">
+                    <i class="fas fade descktop"></i>                    
+                    <span>@oElemento.Nombre</span>
+                </a>
+            }
+        </div>
+        
+
+    </div>
+
+</div>
+
+<script>
+    function jsGo(idSubCategoria) {
+        document.location.href = "@Url.Content("~/Productos/catalogoProductos/")" + "?id=" + idSubCategoria;
+    }
+</script>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ee6afa004fb341c1ae7a2b32014f2402" Name="Diagram1">
+        <EntityTypeShape EntityType="carritoCompraDBModel.C_METODO_PAGO" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carritoCompraDBModel.CARRITO" Width="1.5" PointX="7.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carritoCompraDBModel.CATEGORIA" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="carritoCompraDBModel.DETALLE" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="carritoCompraDBModel.ORDEN" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="carritoCompraDBModel.SUB_CATEGORIA" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="carritoCompraDBModel.USUARIO" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <AssociationConnector Association="carritoCompraDBModel.FK_ORDEN_C_METODO_PAGO" ManuallyRouted="false" />
+        <AssociationConnector Association="carritoCompraDBModel.FK_SUB_CATEGORIA_CATEGORIA" ManuallyRouted="false" />
+        <AssociationConnector Association="carritoCompraDBModel.FK_DETALLE_ORDEN" ManuallyRouted="false" />
+        <AssociationConnector Association="carritoCompraDBModel.FK_ORDEN_USUARIO" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="carritoCompraDBModel.PRODUCTO" Width="1.5" PointX="5.25" PointY="3.375" />
+        <AssociationConnector Association="carritoCompraDBModel.FK_CARRITO_PRODUCTO" />
+        <AssociationConnector Association="carritoCompraDBModel.FK_DETALLE_PRODUCTO" />
+        <AssociationConnector Association="carritoCompraDBModel.FK_PRODUCTO_SUB_CATEGORIA" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

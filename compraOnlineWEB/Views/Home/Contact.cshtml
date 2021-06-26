@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_LayoutProductos.cshtml";
+}
+
+<div class="contact-section">
+    
+    <div class="contact-info">
+        <div><i class="fas fa-map-marker-alt"></i>Guatemala, Guatemala,C.A</div>
+        <div><i class="fas fa-envelope"></i>contact@email.com</div>
+        <div><i class="fas fa-phone"></i>+00 0000 000 000</div>
+        <div><i class="fas fa-clock"></i>Mon - Fri 8:00 AM to 5:00 PM</div>
+    </div>
+
+    <div class="contact-form">
+        <h2>Contacto</h2>
+        
+            <input type="text" name="name" class="text-box" placeholder="Nombre" required>
+            <input type="email" name="email" class="text-box" placeholder="Email" required>
+            <br />
+            <textarea name="message" rows="5" placeholder="Mensaje" required></textarea>
+            
+            <br />
+            <input type="submit" name="submit" class="send-btn" value="Enviar">
+        
+    </div>
+</div>

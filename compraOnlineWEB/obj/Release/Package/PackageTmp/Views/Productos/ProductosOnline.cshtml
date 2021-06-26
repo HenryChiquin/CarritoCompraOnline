@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "PROYECTO";
+    Layout = "~/Views/Shared/_LayoutProductos.cshtml";
+    List<compraOnlineWEB.Models.ViewModel.listCategoriaViewModel> lista = (List<compraOnlineWEB.Models.ViewModel.listCategoriaViewModel>)ViewBag.ListCategoria;
+
+
+}
+
+
+
+<div class="row">
+
+    <div class="sidebar">
+        <b>CATEGORIA</b>
+        <hr />
+        @foreach (var oElemento in lista)
+        {
+
+            <a onclick="jsGo(@oElemento.Id_Categoria)">
+                <i class="fas fade descktop"></i>
+                <span>@oElemento.Nombre</span>
+            </a>
+        }
+    </div>
+</div>
+
+
+
+<script>
+    function jsGo(idCategoria) {
+        document.location.href = "@Url.Content("~/Productos/catalogoSubcategoria/")" + "?id=" + idCategoria;
+    }
+</script>

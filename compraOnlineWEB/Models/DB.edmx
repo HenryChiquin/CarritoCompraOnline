@@ -1,0 +1,523 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="carritoCompraDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="C_METODO_PAGO">
+          <Key>
+            <PropertyRef Name="Id_MetodoPago" />
+          </Key>
+          <Property Name="Id_MetodoPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CARRITO">
+          <Key>
+            <PropertyRef Name="Id_Carrito" />
+          </Key>
+          <Property Name="Id_Carrito" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Producto" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="Id_Categoria" />
+          </Key>
+          <Property Name="Id_Categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DETALLE">
+          <Key>
+            <PropertyRef Name="Id_Detalle" />
+          </Key>
+          <Property Name="Id_Detalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Orden" Type="int" Nullable="false" />
+          <Property Name="Id_Producto" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Importe" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ORDEN">
+          <Key>
+            <PropertyRef Name="Id_Orden" />
+          </Key>
+          <Property Name="Id_Orden" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Usuario" Type="int" Nullable="false" />
+          <Property Name="Id_MetodoPago" Type="int" Nullable="false" />
+          <Property Name="Total" Type="numeric" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="Id_Producto" />
+          </Key>
+          <Property Name="Id_Producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Precio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Existencia" Type="int" Nullable="false" />
+          <Property Name="Id_SubCategoria" Type="int" Nullable="false" />
+          <Property Name="ImgProducto" Type="image" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="SUB_CATEGORIA">
+          <Key>
+            <PropertyRef Name="Id_SubCategoria" />
+          </Key>
+          <Property Name="Id_SubCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Id_Categoria" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="Id_Usuario" />
+          </Key>
+          <Property Name="Id_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CARRITO_PRODUCTO">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="CARRITO" Type="Self.CARRITO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="CARRITO">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_ORDEN">
+          <End Role="ORDEN" Type="Self.ORDEN" Multiplicity="1" />
+          <End Role="DETALLE" Type="Self.DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDEN">
+              <PropertyRef Name="Id_Orden" />
+            </Principal>
+            <Dependent Role="DETALLE">
+              <PropertyRef Name="Id_Orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_PRODUCTO">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="DETALLE" Type="Self.DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="DETALLE">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDEN_C_METODO_PAGO">
+          <End Role="C_METODO_PAGO" Type="Self.C_METODO_PAGO" Multiplicity="1" />
+          <End Role="ORDEN" Type="Self.ORDEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_METODO_PAGO">
+              <PropertyRef Name="Id_MetodoPago" />
+            </Principal>
+            <Dependent Role="ORDEN">
+              <PropertyRef Name="Id_MetodoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDEN_USUARIO">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="ORDEN" Type="Self.ORDEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="Id_Usuario" />
+            </Principal>
+            <Dependent Role="ORDEN">
+              <PropertyRef Name="Id_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_SUB_CATEGORIA">
+          <End Role="SUB_CATEGORIA" Type="Self.SUB_CATEGORIA" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUB_CATEGORIA">
+              <PropertyRef Name="Id_SubCategoria" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="Id_SubCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUB_CATEGORIA_CATEGORIA">
+          <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+          <End Role="SUB_CATEGORIA" Type="Self.SUB_CATEGORIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="SUB_CATEGORIA">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="carritoCompraDBModelStoreContainer">
+          <EntitySet Name="C_METODO_PAGO" EntityType="Self.C_METODO_PAGO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CARRITO" EntityType="Self.CARRITO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLE" EntityType="Self.DETALLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ORDEN" EntityType="Self.ORDEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUB_CATEGORIA" EntityType="Self.SUB_CATEGORIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CARRITO_PRODUCTO" Association="Self.FK_CARRITO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="CARRITO" EntitySet="CARRITO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_ORDEN" Association="Self.FK_DETALLE_ORDEN">
+            <End Role="ORDEN" EntitySet="ORDEN" />
+            <End Role="DETALLE" EntitySet="DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_PRODUCTO" Association="Self.FK_DETALLE_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="DETALLE" EntitySet="DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDEN_C_METODO_PAGO" Association="Self.FK_ORDEN_C_METODO_PAGO">
+            <End Role="C_METODO_PAGO" EntitySet="C_METODO_PAGO" />
+            <End Role="ORDEN" EntitySet="ORDEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDEN_USUARIO" Association="Self.FK_ORDEN_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="ORDEN" EntitySet="ORDEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_SUB_CATEGORIA" Association="Self.FK_PRODUCTO_SUB_CATEGORIA">
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUB_CATEGORIA_CATEGORIA" Association="Self.FK_SUB_CATEGORIA_CATEGORIA">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="carritoCompraDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C_METODO_PAGO">
+          <Key>
+            <PropertyRef Name="Id_MetodoPago" />
+          </Key>
+          <Property Name="Id_MetodoPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ORDEN" Relationship="Self.FK_ORDEN_C_METODO_PAGO" FromRole="C_METODO_PAGO" ToRole="ORDEN" />
+        </EntityType>
+        <EntityType Name="CARRITO">
+          <Key>
+            <PropertyRef Name="Id_Carrito" />
+          </Key>
+          <Property Name="Id_Carrito" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="carritoCompraDBModel.FK_CARRITO_PRODUCTO" FromRole="CARRITO" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="Id_Categoria" />
+          </Key>
+          <Property Name="Id_Categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SUB_CATEGORIA" Relationship="Self.FK_SUB_CATEGORIA_CATEGORIA" FromRole="CATEGORIA" ToRole="SUB_CATEGORIA" />
+        </EntityType>
+        <EntityType Name="DETALLE">
+          <Key>
+            <PropertyRef Name="Id_Detalle" />
+          </Key>
+          <Property Name="Id_Detalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Orden" Type="Int32" Nullable="false" />
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Importe" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="ORDEN" Relationship="Self.FK_DETALLE_ORDEN" FromRole="DETALLE" ToRole="ORDEN" />
+          <NavigationProperty Name="PRODUCTO" Relationship="carritoCompraDBModel.FK_DETALLE_PRODUCTO" FromRole="DETALLE" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="ORDEN">
+          <Key>
+            <PropertyRef Name="Id_Orden" />
+          </Key>
+          <Property Name="Id_Orden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Usuario" Type="Int32" Nullable="false" />
+          <Property Name="Id_MetodoPago" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="C_METODO_PAGO" Relationship="Self.FK_ORDEN_C_METODO_PAGO" FromRole="ORDEN" ToRole="C_METODO_PAGO" />
+          <NavigationProperty Name="DETALLE" Relationship="Self.FK_DETALLE_ORDEN" FromRole="ORDEN" ToRole="DETALLE" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK_ORDEN_USUARIO" FromRole="ORDEN" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="SUB_CATEGORIA">
+          <Key>
+            <PropertyRef Name="Id_SubCategoria" />
+          </Key>
+          <Property Name="Id_SubCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id_Categoria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CATEGORIA" Relationship="Self.FK_SUB_CATEGORIA_CATEGORIA" FromRole="SUB_CATEGORIA" ToRole="CATEGORIA" />
+          <NavigationProperty Name="PRODUCTO" Relationship="carritoCompraDBModel.FK_PRODUCTO_SUB_CATEGORIA" FromRole="SUB_CATEGORIA" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="Id_Usuario" />
+          </Key>
+          <Property Name="Id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ORDEN" Relationship="Self.FK_ORDEN_USUARIO" FromRole="USUARIO" ToRole="ORDEN" />
+        </EntityType>
+        <Association Name="FK_ORDEN_C_METODO_PAGO">
+          <End Role="C_METODO_PAGO" Type="Self.C_METODO_PAGO" Multiplicity="1" />
+          <End Role="ORDEN" Type="Self.ORDEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_METODO_PAGO">
+              <PropertyRef Name="Id_MetodoPago" />
+            </Principal>
+            <Dependent Role="ORDEN">
+              <PropertyRef Name="Id_MetodoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUB_CATEGORIA_CATEGORIA">
+          <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+          <End Role="SUB_CATEGORIA" Type="Self.SUB_CATEGORIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="SUB_CATEGORIA">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_ORDEN">
+          <End Role="ORDEN" Type="Self.ORDEN" Multiplicity="1" />
+          <End Role="DETALLE" Type="Self.DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDEN">
+              <PropertyRef Name="Id_Orden" />
+            </Principal>
+            <Dependent Role="DETALLE">
+              <PropertyRef Name="Id_Orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDEN_USUARIO">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="ORDEN" Type="Self.ORDEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="Id_Usuario" />
+            </Principal>
+            <Dependent Role="ORDEN">
+              <PropertyRef Name="Id_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="carritoCompraDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C_METODO_PAGO" EntityType="Self.C_METODO_PAGO" />
+          <EntitySet Name="CARRITO" EntityType="Self.CARRITO" />
+          <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" />
+          <EntitySet Name="DETALLE" EntityType="Self.DETALLE" />
+          <EntitySet Name="ORDEN" EntityType="Self.ORDEN" />
+          <EntitySet Name="SUB_CATEGORIA" EntityType="Self.SUB_CATEGORIA" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+          <AssociationSet Name="FK_ORDEN_C_METODO_PAGO" Association="Self.FK_ORDEN_C_METODO_PAGO">
+            <End Role="C_METODO_PAGO" EntitySet="C_METODO_PAGO" />
+            <End Role="ORDEN" EntitySet="ORDEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUB_CATEGORIA_CATEGORIA" Association="Self.FK_SUB_CATEGORIA_CATEGORIA">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_ORDEN" Association="Self.FK_DETALLE_ORDEN">
+            <End Role="ORDEN" EntitySet="ORDEN" />
+            <End Role="DETALLE" EntitySet="DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDEN_USUARIO" Association="Self.FK_ORDEN_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="ORDEN" EntitySet="ORDEN" />
+          </AssociationSet>
+          <EntitySet Name="PRODUCTO" EntityType="carritoCompraDBModel.PRODUCTO" />
+          <AssociationSet Name="FK_CARRITO_PRODUCTO" Association="carritoCompraDBModel.FK_CARRITO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="CARRITO" EntitySet="CARRITO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_PRODUCTO" Association="carritoCompraDBModel.FK_DETALLE_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="DETALLE" EntitySet="DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_SUB_CATEGORIA" Association="carritoCompraDBModel.FK_PRODUCTO_SUB_CATEGORIA">
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="Id_Producto" />
+          </Key>
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Existencia" Type="Int32" Nullable="false" />
+          <Property Name="Id_SubCategoria" Type="Int32" Nullable="false" />
+          <Property Name="ImgProducto" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CARRITO" Relationship="carritoCompraDBModel.FK_CARRITO_PRODUCTO" FromRole="PRODUCTO" ToRole="CARRITO" />
+          <NavigationProperty Name="DETALLE" Relationship="carritoCompraDBModel.FK_DETALLE_PRODUCTO" FromRole="PRODUCTO" ToRole="DETALLE" />
+          <NavigationProperty Name="SUB_CATEGORIA" Relationship="carritoCompraDBModel.FK_PRODUCTO_SUB_CATEGORIA" FromRole="PRODUCTO" ToRole="SUB_CATEGORIA" />
+        </EntityType>
+        <Association Name="FK_CARRITO_PRODUCTO">
+          <End Type="carritoCompraDBModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="carritoCompraDBModel.CARRITO" Role="CARRITO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="CARRITO">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_PRODUCTO">
+          <End Type="carritoCompraDBModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="carritoCompraDBModel.DETALLE" Role="DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="DETALLE">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_SUB_CATEGORIA">
+          <End Type="carritoCompraDBModel.SUB_CATEGORIA" Role="SUB_CATEGORIA" Multiplicity="1" />
+          <End Type="carritoCompraDBModel.PRODUCTO" Role="PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUB_CATEGORIA">
+              <PropertyRef Name="Id_SubCategoria" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="Id_SubCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="carritoCompraDBModelStoreContainer" CdmEntityContainer="carritoCompraDBEntities">
+          <EntitySetMapping Name="C_METODO_PAGO">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.C_METODO_PAGO">
+              <MappingFragment StoreEntitySet="C_METODO_PAGO">
+                <ScalarProperty Name="Id_MetodoPago" ColumnName="Id_MetodoPago" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARRITO">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.CARRITO">
+              <MappingFragment StoreEntitySet="CARRITO">
+                <ScalarProperty Name="Id_Carrito" ColumnName="Id_Carrito" />
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CATEGORIA">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.CATEGORIA">
+              <MappingFragment StoreEntitySet="CATEGORIA">
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.DETALLE">
+              <MappingFragment StoreEntitySet="DETALLE">
+                <ScalarProperty Name="Id_Detalle" ColumnName="Id_Detalle" />
+                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDEN">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.ORDEN">
+              <MappingFragment StoreEntitySet="ORDEN">
+                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
+                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+                <ScalarProperty Name="Id_MetodoPago" ColumnName="Id_MetodoPago" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUB_CATEGORIA">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.SUB_CATEGORIA">
+              <MappingFragment StoreEntitySet="SUB_CATEGORIA">
+                <ScalarProperty Name="Id_SubCategoria" ColumnName="Id_SubCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIO">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="carritoCompraDBModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="ImgProducto" ColumnName="ImgProducto" />
+                <ScalarProperty Name="Id_SubCategoria" ColumnName="Id_SubCategoria" />
+                <ScalarProperty Name="Existencia" ColumnName="Existencia" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

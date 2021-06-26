@@ -1,0 +1,104 @@
+﻿@model compraOnlineWEB.Models.Request.registerProductoRequest
+
+@{
+    ViewBag.Title = "nuevoProducto";
+
+    List<SelectListItem> items = (List<SelectListItem>)ViewBag.items;
+
+}
+
+<h2>nuevoProducto</h2>
+
+@using (Html.BeginForm("nuevoProducto", "registerProducto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+        <div class="form-group">
+            @Html.LabelFor(d => d.Nombre)
+            @Html.TextBoxFor(d => d.Nombre, "", new { @class = "form-control" })
+            @Html.ValidationMessageFor(d => d.Nombre, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(d => d.Precio)
+            @Html.TextBoxFor(d => d.Precio, "", new { @class = "form-control" })
+            @Html.ValidationMessageFor(d => d.Precio, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(d => d.Existencia)
+            @Html.TextBoxFor(d => d.Existencia, "", new { @class = "form-control" })
+            @Html.ValidationMessageFor(d => d.Existencia, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(d => d.Descripcion)
+            @Html.TextAreaFor(d => d.Descripcion, new { @class = "form-control" })
+            @Html.ValidationMessageFor(d => d.Descripcion, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            Categoria
+            @Html.DropDownList("Categoria", items, "selecciona algo wey", new { @class = "form-control", id = "idCategoria" })
+        </div>
+
+
+        <div class="form-group">
+            Sub Categoria
+            <select id="subCategoria" name="sub_Categoria" class="form-control"></select>
+
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(d => d.archivo)
+            @Html.TextBoxFor(d => d.archivo, new { @class = "form-control", type = "file", accept = ".jpg,.png" })
+        </div>
+
+
+    </div>
+    <div class="form-group" style="text-align:right">
+        <input type="submit" class="btn btn-success" name="guardar" value="Guardar" />
+    </div>
+
+</div>
+}
+
+
+
+<script>
+    var cboSubcategoria = document.getElementById("idCategoria");
+
+    cboSubcategoria.addEventListener("change", Refresh);
+    Refresh();
+
+    function Refresh() {
+
+        fetch("@Url.Content("~/registerProducto/subCategoria")" + "?idCategoria=" + cboSubcategoria.value)
+            .then(function (result) {
+                if (result.ok) {
+                    return result.json();
+                }
+            })
+            .then(function (data) {
+                console.log(data);
+                cbo = document.getElementById("subCategoria");
+                cbo.innerHTML = "";
+                data.forEach(function (element) {
+
+                    let opt = document.createElement("option");
+                    opt.appendChild(document.createTextNode(element.Text));
+                    opt.value = element.Value;
+
+                    cbo.appendChild(opt);
+
+                })
+            })
+
+    }
+
+
+
+</script>
